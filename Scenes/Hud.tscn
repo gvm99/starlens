@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=3 uid="uid://cvaqr7qgkwjah"]
+
+[ext_resource type="Theme" uid="uid://cnooptha27n0h" path="res://Styles/progress_bar.tres" id="1_gymcl"]
+[ext_resource type="Script" path="res://Scripts/Hud.gd" id="1_nidpi"]
+[ext_resource type="FontFile" uid="uid://b7xbrfonpx2t2" path="res://Fonts/joystix monospace.otf" id="2_oj1ig"]
+[ext_resource type="Texture2D" uid="uid://duo62hx4ncbl" path="res://arts/SingleCoin.png" id="3_foow6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wuuhx"]
+font = ExtResource("2_oj1ig")
+font_size = 32
+font_color = Color(0.913725, 0.913725, 0.913725, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_86lie"]
+font = ExtResource("2_oj1ig")
+font_size = 101
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_nidpi")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 31.0
+offset_top = 3.0
+offset_right = 81.0
+offset_bottom = 16.0
+theme = ExtResource("1_gymcl")
+value = 31.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="ProgressBar"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 4.0
+offset_right = 8.0
+offset_bottom = 85.0
+scale = Vector2(0.1, 0.1)
+text = "Chroma Aberration"
+label_settings = SubResource("LabelSettings_wuuhx")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="StarPoints" type="Node2D" parent="."]
+
+[node name="Star Coin" type="Sprite2D" parent="StarPoints"]
+position = Vector2(9, 27)
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("3_foow6")
+
+[node name="StarPointsLabel" type="Label" parent="StarPoints/Star Coin"]
+offset_left = 7.5
+offset_top = -5.625
+offset_right = 91.5
+offset_bottom = 116.375
+scale = Vector2(0.1, 0.1)
+text = "0"
+label_settings = SubResource("LabelSettings_86lie")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 249.0
+offset_bottom = 150.0
+
+[node name="Tips" type="Label" parent="Control"]
+layout_direction = 3
+layout_mode = 0
+offset_left = -187.0
+offset_top = 145.0
+offset_right = 141.0
+offset_bottom = 168.0
+scale = Vector2(0.1, 0.1)
+theme_override_fonts/font = ExtResource("2_oj1ig")
+theme_override_font_sizes/font_size = 18
+
+[node name="RestartRect" type="ColorRect" parent="."]
+visible = false
+offset_left = 78.0
+offset_top = 47.0
+offset_right = 170.0
+offset_bottom = 111.0
+size_flags_stretch_ratio = 0.0
+color = Color(0.270588, 0.243137, 0.321569, 1)
+
+[node name="Button" type="Button" parent="RestartRect"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 35.0
+offset_right = 626.0
+offset_bottom = 215.0
+scale = Vector2(0.1, 0.1)
+theme_override_fonts/font = ExtResource("2_oj1ig")
+theme_override_font_sizes/font_size = 55
+text = "Restart"
+
+[node name="Label" type="Label" parent="RestartRect"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 2.0
+offset_right = 86.0
+offset_bottom = 25.0
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_oj1ig")
+theme_override_font_sizes/font_size = 131
+text = "YOU WON"
+
+[connection signal="value_changed" from="ProgressBar" to="." method="_on_progress_bar_value_changed"]
+[connection signal="pressed" from="RestartRect/Button" to="." method="_on_button_pressed"]

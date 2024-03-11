@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://db6qg6qob43k1"]
+
+[ext_resource type="Script" path="res://Scripts/DustMob.gd" id="1_6qmwh"]
+[ext_resource type="Texture2D" uid="uid://coattph8oj1ty" path="res://arts/Enemy Walk.png" id="1_r5u5f"]
+[ext_resource type="AudioStream" uid="uid://5ii4ypoai5a4" path="res://sounds/crawl.wav" id="3_4s7dn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0xco"]
+atlas = ExtResource("1_r5u5f")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4v26c"]
+atlas = ExtResource("1_r5u5f")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_030cu"]
+atlas = ExtResource("1_r5u5f")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_31rt6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0xco")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4v26c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_030cu")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i14lc"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6i1l0"]
+size = Vector2(105, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ysyd"]
+size = Vector2(15, 10.5)
+
+[node name="DustMob" type="CharacterBody2D"]
+script = ExtResource("1_6qmwh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_31rt6")
+animation = &"Walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_i14lc")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(-14, 5)
+shape = SubResource("RectangleShape2D_6i1l0")
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, 3.75)
+shape = SubResource("RectangleShape2D_7ysyd")
+
+[node name="Crawl" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_4s7dn")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="HitBox" to="." method="_on_hit_box_body_exited"]

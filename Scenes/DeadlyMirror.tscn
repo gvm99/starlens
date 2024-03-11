@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxwqs6q76tr1u"]
+
+[ext_resource type="Script" path="res://Scripts/DeadlyMirror.gd" id="1_re34g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4e51j"]
+size = Vector2(112, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7dq2"]
+size = Vector2(112, 11)
+
+[node name="DeadlyMirror" type="Node2D"]
+script = ExtResource("1_re34g")
+
+[node name="RigidBody2D" type="StaticBody2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D/Area2D"]
+position = Vector2(46, 2)
+shape = SubResource("RectangleShape2D_4e51j")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(46, 1.5)
+shape = SubResource("RectangleShape2D_p7dq2")
+
+[connection signal="body_entered" from="RigidBody2D/Area2D" to="." method="_on_area_2d_body_entered"]

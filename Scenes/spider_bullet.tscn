@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7yt0ymcofev3"]
+
+[ext_resource type="Script" path="res://Scripts/spider_bullet.gd" id="1_koi26"]
+[ext_resource type="Texture2D" uid="uid://cogti4dv3lm58" path="res://arts/Spider.png" id="1_qbo85"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yv1uh"]
+radius = 2.0
+height = 4.0
+
+[node name="SpiderBullet" type="Area2D"]
+script = ExtResource("1_koi26")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_qbo85")
+region_enabled = true
+region_rect = Rect2(25, 4, 3, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_yv1uh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

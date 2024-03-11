@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://lyfeg8bhgmv5"]
+
+[ext_resource type="Script" path="res://Scripts/coin.gd" id="1_pgrj1"]
+[ext_resource type="Texture2D" uid="uid://d3tl7jvcmhyho" path="res://arts/Star Coins.png" id="1_t51k0"]
+[ext_resource type="AudioStream" uid="uid://dfrv2nqnujthc" path="res://sounds/collectStar.wav" id="3_a74f6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ownv5"]
+atlas = ExtResource("1_t51k0")
+region = Rect2(10, 0, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rlx4j"]
+atlas = ExtResource("1_t51k0")
+region = Rect2(20, 0, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lp8cw"]
+atlas = ExtResource("1_t51k0")
+region = Rect2(0, 0, 10, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_erwro"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ownv5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rlx4j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lp8cw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_u434p"]
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(1, 1, 0.533333, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3ansa"]
+gradient = SubResource("Gradient_u434p")
+fill = 1
+fill_from = Vector2(0.529817, 0.534404)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_husgr"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0sajp"]
+radius = 4.0
+
+[node name="Coin" type="CharacterBody2D"]
+script = ExtResource("1_pgrj1")
+
+[node name="Collect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_a74f6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_erwro")
+frame = 1
+frame_progress = 0.825446
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.414062, 0.414062)
+texture = SubResource("GradientTexture2D_3ansa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_husgr")
+disabled = true
+
+[node name="CollectableArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectableArea"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_0sajp")
+
+[connection signal="body_entered" from="CollectableArea" to="." method="_on_collectable_area_body_entered"]
